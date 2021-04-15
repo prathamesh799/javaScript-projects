@@ -1,0 +1,104 @@
+body {
+    background-image: url(images/bg4.png);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin: 3%;
+    padding: 3%;
+}
+
+h1 {
+    color: white;
+    padding-bottom: 1rem;
+    padding-left: 10%;
+    text-align:inherit;
+}
+
+#drum-kit-image {    
+    height: 600px;
+    width: 900px;
+    position: relative;
+    padding-bottom: 3rem;
+}
+
+.drum-btn {
+    position: absolute;
+    background-color:transparent;
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+    content:none;
+}
+
+.drum-btn::after {
+    visibility: visible;
+    content: " ";
+}
+
+
+#drum-kit-container {
+    text-align: center;
+    position: absolute;
+}
+
+button {
+    color:transparent;
+}
+
+.bass {
+    top: 272px;
+    left: 310px;
+    height:225px;
+    width:230px;
+}
+
+.tom1 {
+    top:105px;
+    left:280px;
+    height:50px;
+    width:130px;
+    rotate:3deg;
+}
+
+.tom2 {
+    top:102px;
+    left:435px;
+    height:50px;
+    width:140px;
+    rotate:-3deg;
+}
+
+.floor-tom-right {
+    top:228px;
+    left:530px;
+    height:40px;
+    width:190px;
+}
+
+.snare-left {
+    top:210px;
+    left:180px;
+    height:50px;
+    width:160px;
+}
+
+.ride-cymbal {
+    top:12px;
+    left:110px;
+    height:30px;
+    width:180px;
+    rotate: 8.5deg;
+}
+
+.crash-cymbal {
+    top:85px;
+    left:595px;
+    height:50px;
+    width:225px;
+}
+
+.hi-hats {
+    top:170px;
+    left:30px;
+    height:30px;
+    width:170px;
+    rotate:2deg;
+}
