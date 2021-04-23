@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        
+        <title>To-do app</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+        <link rel="stylesheet" href="styles.css">
+        <link rel="shortcut icon" href="icon.png">
+    </head>
+    <body>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>        
+        <center><div id="todo-container-outer"></div></center>
+        <script type="text/babel">
+        // localStorage.clear()
+
+            class CountComp extends React.Component {
+                render() {
+                    return (
+                        <div className="row">
+                            <div className="col text-center">
+                                <p className="h6">{this.props.count} tasks to go!</p>
+                            </div>
+                        </div>
+                    )
+                }
+            }
+
+            class Task extends React.Component {
+                constructor(props){
+                    super(props)
+                    this.state={
+                        inputText:"",
+                        inputTime: "",
+                        taskList:[],
+                        taskTimes:[],
+                        count:0,
+                        taskIsEditing:false
+                    };
+                }
+
+                componentDidMount() {
+                    const existingTasks = localStorage.getItem("taskList");
+                    const existingTimes = localStorage.getItem("taskTimes");
+                    const arrObj = JSON.parse(existingTasks);
+                    const timesObj = JSON.parse(existingTimes);
+                    if (existingTasks != null) {
+                        console.log(arrObj)
+                        console.log(timesObj)
+                        this.setState({taskList:arrObj});
+                        this.setState({taskTimes:timesObj});
+                        this.setState({count:arrObj.length})
+                        console.log("found data")
+                    }   
+
+                    window.addEventListener("beforeunload", () => {
+                        if (this.state.taskList.length >= 0) {
+                            localStorage.setItem("taskList", JSON.stringify(this.state.taskList));                        
+                            localStorage.setItem("taskTimes", JSON.stringify(this.state.taskTimes));
+                        }
+                });
+                }                
+                
+                render() {
+                    let temp = [...this.state.taskList];
+                    let isCount = this.state.count;
+                    let taskIsEditing = this.state.taskIsEditing
+                    return (
+                        <div className="container" id="todo-container">
+                            <div className="row">
+                                <div className="col text-center">
+                                    <p className="h1 text-center">To-do list</p>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-8">
+                                    <input onChange={this.inputAccept} type="text" placeholder="Enter task here..." className="form-control" value={this.state.inputText}/>
+                                </div>
+                                {
+                                    taskIsEditing 
+                                        ?
+                                        <div className="col-2 text-center">
+                                            <button onClick={this.updateTask} className="btn btn-secondary add-btn">Save</button>
+                                        </div>
+                                        :
+                                        <div className="col-2 text-center">
+                                            <button onClick={this.addTask} className="btn btn-secondary add-btn">Add</button>
+                                        </div>
+                                }
+                            </div>                              
+                            <div className="row">
+                                <div className="col-6 text-center">
+                                    <input onChange={this.timeAccept} type="time" className="form-control" value={this.state.inputTime}/>
+                                </div>
+                            </div>    
+                                                       
+                            {
+                                temp.map((elem, i) =>
+                                <div key={i} className="row">
+                                    <div className="col-8">
+                                        <p className="text-left time-text">{this.state.taskTimes[i]}</p>
+                                        <p className="text-left task-text">{elem}</p>
+                                    </div>
+                                    <div className="col-2 text-center">
+                                        <button onClick={()=>this.editTask(i)} className="btn btn-danger delete-btn">Edit</button>
+                                    </div>
+                                    <div className="col-2 text-center">
+                                        <button onClick={()=>this.confirmDeleteTask(i)} className="btn btn-danger delete-btn">Del</button>
+                                    </div>
+                                </div>
+                                )
+                            }
+                            
+                            
+                            <div className="row">
+                                <div className="col text-center">
+                                    <p className="h4">--------</p>
+                                </div>
+                            </div>  
+
+                            <CountComp count={this.state.count}/>
+                        </div>
+                    )
+                }
+
+                inputAccept = (ele) => {
+                    this.setState({inputText:ele.target.value});
+                }
+
+                timeAccept = (ele) => {
+                    this.setState({inputTime:ele.target.value});
+                }
+
+                addTask = (e) => {
+                    
+                    
+                    e.preventDefault()
+
+                    // if(this.state.inputText.trim.length === 0) {
+                    //     console.log("empty input text ")
+                    //     return
+                    // }
+                    console.log("adding " + this.state.inputText)
+
+                    this.setState({taskList:[...this.state.taskList, this.state.inputText]});
+                    this.setState({inputText:""});
+
+                    const newCount = this.state.count + 1
+                    this.setState({count:newCount})                    
+                    console.log("new count " + newCount)
+
+                    if(this.state.inputTime.length === 0) {
+                        console.log("empty time input ")
+                        this.setState({inputTime:"05:00"})
+                    }
+                    
+                    console.log("adding time " + this.state.inputTime)
+
+                    this.setState({taskTimes:[...this.state.taskTimes, this.state.inputTime]});
+                    this.setState({inputTime:""})
+                }
+
+                confirmDeleteTask = (ind) => {
+                    const confirmation = confirm("Are you sure?")
+                    console.log("confirmation = "+confirmation)
+                    if (confirmation === true) {
+                        this.deleteTask(ind);
+                        console.log("deleted task index. "+ ind)
+                    }
+                }
+
+                deleteTask = (ind) => {
+                    console.log("deleting task at " + ind)
+                    let temp = [...this.state.taskList];
+                    temp.splice(ind, 1);
+                    this.setState({taskList:temp})
+
+                    let tempTimes = [...this.state.taskTimes];
+                    tempTimes.splice(ind, 1);
+                    this.setState({taskTimes:tempTimes})
+
+                    const newCount = this.state.count - 1
+                    this.setState({count:newCount})
+                    console.log("deleted")
+                }
+
+                editTask = (ind) => {
+                    console.log("editing task " + ind )
+                    this.setState({taskIsEditing:true})
+                    let temp=[...this.state.taskList];
+                    this.setState({inputText:temp[ind]});
+                    this.setState({editingAt:ind})
+                }
+
+                updateTask = () => {
+                    console.log("updating " + this.state.editingAt)
+                    let temp = [...this.state.taskList]
+                    temp[this.state.editingAt]=this.state.inputText;
+                    this.setState({taskList:temp});
+                    this.setState({inputText:""});
+                    
+                    let tempTimes = [...this.state.taskTimes]
+                    temp[this.state.editingAt]=this.state.inputTime;
+                    this.setState({taskTimes:tempTimes});
+                    this.setState({inputTime:""});
+                                        
+                    this.setState({taskIsEditing:false})
+                    console.log("updated")
+                }
+
+            }
+
+            ReactDOM.render(<Task />, document.querySelector("#todo-container-outer"))
+
+        </script>
+    </body>
+</html>
