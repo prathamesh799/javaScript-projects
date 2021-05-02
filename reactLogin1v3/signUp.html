@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+        <link rel="stylesheet" href="styles.css">
+        <link rel="shortcut icon" href="icon.png">
+    </head>
+    <body>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>        
+        <div class="container" id="form-container-outer">
+            <div class="row">
+                <div class="col">
+                    <div id="form-container">
+                        <!-- render bmi component -->
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div id="message-container">
+                        <!-- render message component -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type='text/babel'>
+
+        class Message extends React.Component {
+
+            constructor(props) {
+                super(props)
+            }
+            render(){
+                return (
+                    <h4 className="col-md-6">
+                        Welcome {this.props.userId} your account has been created with {this.props.email} and {this.props.phone}
+                    </h4>
+                    ); 
+            }
+        }
+
+        class Signup extends React.Component {
+
+            constructor(props) {
+                super(props)
+                this.state = {
+                    userFirst:"",
+                    userLast:"",
+                    userId:"",
+                    userPw:"",
+                    userEmail:"", 
+                    userPhone:""
+                }
+            }
+            render() {
+                console.log("entered Login render")
+                return (
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-12">
+                                <div className="h2 text-center">Sign-in</div>
+                            </div>
+                        </div>
+                        <form>
+                            <div className="form-inline text-center">
+                                <div className="col">
+                                    <input onChange={this.readInp} type="text" className="form-control" placeholder="First name" name="userFirst" value={this.state.userFirst}/> </div>
+                            </div>
+                            <div className="form-inline text-center">
+                                <div className="col">
+                                    <input onChange={this.readInp} type="text" className="form-control" placeholder="Last name" name="userLast" value={this.state.userLast}/> </div>
+                            </div>
+                            <div className="form-inline text-center">
+                                <div className="col">
+                                    <input onChange={this.readInp} type="text" className="form-control" placeholder="Email" name="userEmail" value={this.state.userEmail}/> </div>
+                            </div>
+                            <div className="form-inline text-center">
+                                <div className="col">
+                                    <input onChange={this.readInp} type="text" className="form-control" placeholder="Phone number" name="userPhone" value={this.state.userPhone}/> </div>
+                            </div>
+                            <div className="form-inline text-center">
+                                <div className="col">
+                                    <input onChange={this.readInp} type="text" className="form-control" placeholder="User id" name="userId" value={this.state.userId}/> </div>
+                            </div>
+                            <div className="form-inline text-center">
+                                <div className="col">
+                                    <input onChange={this.readInp} type="Password" className="form-control" placeholder="Password" name="userPw" value={this.state.userPw} /> </div>
+                            </div>
+                            <div className="form-group text-center">
+                                <button onClick={this.signUp} type="submit" className="btn btn-info signup-btn">Register</button>
+                            </div>
+                            <div className="form-inline text-center">
+                                <a onClick={this.redirectSignin} href="login.html">already have an account</a>
+                            </div>
+                        </form>
+                    </div>
+                    );
+                }
+
+                readInp = (ele) => {
+                    ele.preventDefault();
+                    const i = ele.target.name;
+                    console.log(ele.target.value);
+                    this.setState({[i]:ele.target.value});
+                }
+
+                signUp = (e) => {
+                    e.preventDefault();
+                    const msg = <Message name="name"/>;
+                    ReactDOM.render(msg, document.querySelector('#message-container'));
+                }    
+
+                redirectSignin = (e) => {
+                    e.preventDefault();
+                    ReactDOM.render(<Login/>, document.querySelector('##form-container'));
+                }
+            }
+            ReactDOM.render(<Signup />, document.querySelector('#form-container'));
+        </script>
+    </body>
+</html>

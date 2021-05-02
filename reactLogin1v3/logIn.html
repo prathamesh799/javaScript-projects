@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+        <link rel="stylesheet" href="styles.css">
+        <link rel="shortcut icon" href="icon.png">
+    </head>
+    <body>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>        
+        <div class="container" id="form-container-outer">
+            <div class="row">
+                <div class="col">
+                    <div id="form-container">
+                        <!-- render bmi component -->
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div id="message-container">
+                        <!-- render message component -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type='text/babel'>
+
+        class Password extends React.Component {
+            render () {
+                return(
+                    <div className="form-inline text-center">
+                        <div className="col">
+                            <input onChange={this.props.onChange} type="password" className="form-control" placeholder="Password" name={this.props.name} value={this.props.userPw} /> </div>
+                    </div>
+                )
+            }
+        }
+
+        class Submit extends React.Component {
+            render () {
+                return (
+                    <div className="form-group text-center">
+                        <button onClick={this.props.onClick} type="submit" className="btn btn-info login-btn">{this.props.displayText}</button>
+                    </div>                    
+                )
+            }
+        }
+
+        class Redirect extends React.Component {
+            render () {
+                return (
+                    <div className="form-inline text-center">
+                        <div className="col">
+                            <a onClick={this.props.action} href="#">{this.props.displayText}</a>
+                        </div>
+                    </div>                  
+                )
+            }
+        }
+
+        class FormInput extends React.Component {
+            render () {
+                return (
+                    <div className="form-inline text-center">
+                        <div className="col">
+                            <input onChange={this.props.onChange} type={this.props.type} className="form-control" placeholder={this.props.placeholder} name={this.props.name} value={this.props.userId}/>
+                        </div>
+                    </div>                  
+                )
+            }
+        }
+
+        class Login extends React.Component {
+
+            constructor(props) {
+                super(props)
+                this.state = {
+                    userId:"",
+                    userPw:""
+                }
+            }
+            render() {
+                console.log("entered Login render")
+                return (
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-12">
+                                <div className="h2 text-center">Sign-in</div>
+                            </div>
+                        </div>
+                        <form>
+                            <FormInput onChange={this.readInp} type="text" name="userId" placeholder="Enter user id" value={this.state.userId}/>
+                            
+                            <Password onChange={this.readInp} name="userPw" value={this.state.userPw}/>
+                            
+                            <Submit onClick={this.login} displayText="Login"/>
+                           
+                            <Redirect action={this.redirectSignup} displayText="don't have an account"/>
+                        </form>
+                    </div>
+                    );
+                }
+
+                readInp = (ele) => {
+                    ele.preventDefault();
+                    const i = ele.target.name;
+                    console.log(ele.target.value);
+                    this.setState({[i]:ele.target.value});
+                }
+
+                login = (e) => {
+                    e.preventDefault();
+                    ReactDOM.render(<Message msg={"Welcome " + this.state.userId} />, document.querySelector('#form-container'));
+                }    
+
+                redirectSignup = (e) => {
+                    e.preventDefault();
+                    ReactDOM.render(<Signup />, document.querySelector('#form-container'));        
+                }
+            }
+
+            class Signup extends React.Component {
+
+                constructor(props) {
+                    super(props)
+                    this.state = {
+                        userFirst:"",
+                        userLast:"",
+                        userId:"",
+                        userPw:"",
+                        userEmail:"", 
+                        userPhone:""
+                    }
+                }
+                
+                render() {
+                    console.log("entered Login render")
+                    return (
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-12">
+                                    <div className="h2 text-center">Sign-up</div>
+                                </div>
+                            </div>
+                            <form>                               
+                                <FormInput onChange={this.readInp} type="text" name="userFirst" placeholder="First name" value={this.state.userFirst}/>
+
+                                <FormInput onChange={this.readInp} type="text" name="userLast" placeholder="Last name" value={this.state.userLast}/>
+
+                                <FormInput onChange={this.readInp} type="email" name="userEmail" placeholder="Email" value={this.state.userEmail}/>
+
+                                <FormInput onChange={this.readInp} type="tel" name="userPhone" placeholder="Phone number" value={this.state.userPhone}/>
+
+                                <FormInput onChange={this.readInp} type="text" name="userId" placeholder="User id" value={this.state.userId}/>
+
+                                <Password onChange={this.readInp} name="userPw" value={this.state.userPw}/>
+
+                                <Submit onClick={this.signUp} displayText="Register"/>
+
+                                <Redirect action={this.redirectSignin} displayText="already have an account"/>
+                            </form>
+                        </div>
+                        );
+                    }
+
+                    readInp = (ele) => {
+                        ele.preventDefault();
+                        const i = ele.target.name;
+                        console.log(ele.target.value);
+                        this.setState({[i]:ele.target.value});
+                    }
+
+                    signUp = (e) => {
+                        e.preventDefault();
+                        ReactDOM.render(<Message msg={"Welcome " + this.state.userFirst + " " + this.state.userLast + " your account is registered with " + this.state.userEmail + " and " + this.state.userPhone}/>, document.querySelector('#form-container'));
+                    }    
+
+                    redirectSignin = (e) => {
+                        e.preventDefault();
+                        ReactDOM.render(<Login/>, document.querySelector('#form-container'));
+                    }
+                }
+                            
+                class Message extends React.Component {
+                render(){
+                    return (
+                        <div>
+                            <h4 className="col-md-6 text-center" id="message-font">{this.props.msg}</h4>
+                        </div>
+                        );
+                    }
+                }
+
+            ReactDOM.render(<Login />, document.querySelector('#form-container'));
+        </script>
+    </body>
+</html>
