@@ -1,0 +1,113 @@
+body {
+    /* background-color: rgb(170, 208, 241); */
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    /* background-image: url("/images/wp3.jpg"); */
+    background-image: url("https://i2.wp.com/files.123freevectors.com/wp-content/original/3519-polygonal-light-pink-pattern-background-illustrator.jpg");
+}
+
+
+#body-id {
+    background-color:white;
+    padding:3%;
+    margin:5%;
+    width: auto;
+    border-radius: 30px;
+    margin-top:0px;
+    border: 10px solid rgb(238, 108, 151);
+    filter: opacity(50);
+}
+
+.center-container {
+    text-align: center;
+}
+
+.bold-text {
+    font-weight: bold;
+}
+
+#login-info {
+    text-align: center;
+    background-color: rgb(212, 69, 93);
+    padding:3%;
+    display: inline-block;
+    border-radius: 20px;
+}
+
+#inp-name, #inp-roll {
+    margin:5px;
+    margin-right:5px;
+}
+
+#submit-btn, #next-btn, #prev-btn, #finish-btn {
+    margin: 4px;
+}
+
+a:link, a:visited, a:hover, a:link {
+    text-decoration: none;
+    color: black;
+}
+
+.timer-container {
+    text-align: center;
+}
+
+.timer {
+    background-color: black;
+    display: inline-flex;
+    margin-top:5%;
+    border-radius: 8px;
+}
+
+p.in-time {
+    background-color: forestgreen;
+    color: rgb(27, 27, 27);
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    display: inline-flex;
+    padding-left: 2rem;
+    padding-right:2rem;
+    padding-top:5px;
+    padding-bottom: 2px;
+}
+
+p.last-ten-secs {
+    background-color: firebrick;
+    color: floralwhite;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    display: inline-flex;
+    padding-left: 2rem;
+    padding-right:2rem;
+    padding-top:5px;
+    padding-bottom: 2px;
+}
+
+input[type = radio] {
+    margin-right: 7px;
+    margin-left:5px;
+}
+
+label{
+    font-size: large;
+}
+
+tr.result-table, td.result-table, th.result-table {
+    border: 1px solid black;
+}
+
+.row:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+p.result-q{
+    padding:0px;
+}
+
+.correct {
+    background-color: greenyellow;
+}
+
+.wrong {
+    background-color:crimson;
+    color: gainsboro;
+}
